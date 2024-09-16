@@ -66,7 +66,7 @@ export default function ApplicationModalClient({ jobId }: { jobId: number }) {
     return (
         <>
             <Button onClick={openModal} className="w-40 md:w-fit">
-                Apply now
+                Mám záujem
             </Button>
 
             {isModalOpen && (
