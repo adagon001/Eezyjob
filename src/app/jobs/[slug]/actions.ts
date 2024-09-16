@@ -2,58 +2,48 @@
 
 import prisma from "@/lib/prisma";
 import { toSlug } from "@/lib/utils";
-import { createJobSchema } from "@/lib/validation";
+import { createJobSchema, createResponseSchema } from "@/lib/validation";
 import { put } from "@vercel/blob";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import path from "path";
 
-export async function createJobPosting(formData: FormData) {
+export async function createJobResponse(formData: FormData, jobId: number) {
   const values = Object.fromEntries(formData.entries());
 
   const {
-    title,
-    type,
-    companyName,
-    companyLogo,
-    locationType,
-    location,
-    applicationEmail,
-    applicationUrl,
-    description,
-    salary,
-  } = createJobSchema.parse(values);
+    name,
+    email,
+    photosList,
+    phoneNumber,
+    description
+  } = createResponseSchema.parse(values);
 
-  const slug = `${toSlug(title)}-${nanoid(10)}`;
+  const slug = `${toSlug(name)}-${nanoid(10)}`;
 
-  let companyLogoUrl: string | undefined = undefined;
+  let photo: string | undefined = undefined;
 
-  if (companyLogo) {
+  if (photosList) {
     const blob = await put(
-      `company_logos/${slug}${path.extname(companyLogo.name)}`,
-      companyLogo,
+      `company_logos/${slug}${path.extname(photosList.name)}`,
+      photosList,
       {
         access: "public",
         addRandomSuffix: false,
       },
     );
 
-    companyLogoUrl = blob.url;
+    photo = blob.url;
   }
 
-  await prisma.job.create({
+  await prisma.response.create({
     data: {
-      slug,
-      title: title.trim(),
-      type,
-      companyName: companyName.trim(),
-      companyLogoUrl,
-      locationType,
-      location,
-      applicationEmail: applicationEmail?.trim(),
-      applicationUrl: applicationUrl?.trim(),
-      description: description?.trim(),
-      salary: salary,
+      name,
+      email,
+      phoneNumber,
+      description,
+      photosList: photo,
+      jobId
     },
   });
 

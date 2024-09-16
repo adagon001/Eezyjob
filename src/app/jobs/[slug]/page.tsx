@@ -56,7 +56,7 @@ export default async function Page({ params: { slug } }: PageProps) {
   return (
     <main className="m-auto my-10 flex max-w-5xl flex-col items-center gap-5 px-3 md:flex-row md:items-start">
       <JobPage job={job} />
-      <ApplicationModalClient applicationLink={applicationLink} />
+      <ApplicationModalClient jobId={job.id} />
     </main>
   );
 }

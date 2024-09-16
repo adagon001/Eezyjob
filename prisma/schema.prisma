@@ -41,5 +41,5 @@ model Response {
   description String?
   phoneNumber String?
   job         Job     @relation(fields: [jobId], references: [id])
-  photosList  Int[]
+  photosList  String?
 }

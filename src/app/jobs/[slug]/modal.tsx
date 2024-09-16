@@ -18,23 +18,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/job-types";
-import { CreateJobValues, createJobSchema } from "@/lib/validation";
+import { CreateJobValues, CreateResponseValues, createJobSchema, createResponseSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { draftToMarkdown } from "markdown-draft-js";
 import { useForm } from "react-hook-form";
-import { createJobPosting } from "./actions";
+import { createJobResponse } from "./actions";
 
 
 
-export default function ApplicationModalClient({ applicationLink }: { applicationLink: string }) {
+export default function ApplicationModalClient({ jobId }: { jobId: number }) {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
-    const form = useForm<CreateJobValues>({
-        resolver: zodResolver(createJobSchema),
+    const form = useForm<CreateResponseValues>({
+        resolver: zodResolver(createResponseSchema),
     });
 
     const {
@@ -47,7 +47,7 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
         formState: { isSubmitting },
     } = form;
 
-    async function onSubmit(values: CreateJobValues) {
+    async function onSubmit(values: CreateResponseValues) {
         const formData = new FormData();
 
         Object.entries(values).forEach(([key, value]) => {
@@ -57,7 +57,7 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
         });
 
         try {
-            await createJobPosting(formData);
+            await createJobResponse(formData, jobId);
         } catch (error) {
             alert("Something went wrong, please try again.");
         }
@@ -97,12 +97,12 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
                                     >
                                         <FormField
                                             control={control}
-                                            name="title"
+                                            name="name"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Job title</FormLabel>
+                                                    <FormLabel>Meno</FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder="e.g. Frontend Developer" {...field} />
+                                                        <Input placeholder="Meno priezvisko" {...field} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -110,32 +110,10 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
                                         />
                                         <FormField
                                             control={control}
-                                            name="type"
+                                            name="email"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Job type</FormLabel>
-                                                    <FormControl>
-                                                        <Select {...field} defaultValue="">
-                                                            <option value="" hidden>
-                                                                Select an option
-                                                            </option>
-                                                            {jobTypes.map((jobType) => (
-                                                                <option key={jobType} value={jobType}>
-                                                                    {jobType}
-                                                                </option>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={control}
-                                            name="companyName"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Company</FormLabel>
+                                                    <FormLabel>Email</FormLabel>
                                                     <FormControl>
                                                         <Input {...field} />
                                                     </FormControl>
@@ -145,12 +123,12 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
                                         />
                                         <FormField
                                             control={control}
-                                            name="companyLogo"
+                                            name="photosList"
                                             render={({ field: { value, ...fieldValues } }) => (
                                                 <FormItem>
-                                                    <FormLabel>Company logo</FormLabel>
+                                                    <FormLabel>Fotky roboty</FormLabel>
                                                     <FormControl>
-                                                        <Input
+                                                        <Input multiple
                                                             {...fieldValues}
                                                             type="file"
                                                             accept="image/*"
@@ -164,111 +142,6 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
                                                 </FormItem>
                                             )}
                                         />
-                                        <FormField
-                                            control={control}
-                                            name="locationType"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Location</FormLabel>
-                                                    <FormControl>
-                                                        <Select
-                                                            {...field}
-                                                            defaultValue=""
-                                                            onChange={(e) => {
-                                                                field.onChange(e);
-                                                                if (e.currentTarget.value === "Remote") {
-                                                                    trigger("location");
-                                                                }
-                                                            }}
-                                                        >
-                                                            <option value="" hidden>
-                                                                Select an option
-                                                            </option>
-                                                            {locationTypes.map((locationType) => (
-                                                                <option key={locationType} value={locationType}>
-                                                                    {locationType}
-                                                                </option>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={control}
-                                            name="location"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Office location</FormLabel>
-                                                    <FormControl>
-                                                        <LocationInput
-                                                            onLocationSelected={field.onChange}
-                                                            ref={field.ref}
-                                                        />
-                                                    </FormControl>
-                                                    {watch("location") && (
-                                                        <div className="flex items-center gap-1">
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    setValue("location", "", { shouldValidate: true });
-                                                                }}
-                                                            >
-                                                                <X size={20} />
-                                                            </button>
-                                                            <span className="text-sm">{watch("location")}</span>
-                                                        </div>
-                                                    )}
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <div className="space-y-2">
-                                            <Label htmlFor="applicationEmail">How to apply</Label>
-                                            <div className="flex justify-between">
-                                                <FormField
-                                                    control={control}
-                                                    name="applicationEmail"
-                                                    render={({ field }) => (
-                                                        <FormItem className="grow">
-                                                            <FormControl>
-                                                                <div className="flex items-center">
-                                                                    <Input
-                                                                        id="applicationEmail"
-                                                                        placeholder="Email"
-                                                                        type="email"
-                                                                        {...field}
-                                                                    />
-                                                                    <span className="mx-2">or</span>
-                                                                </div>
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={control}
-                                                    name="applicationUrl"
-                                                    render={({ field }) => (
-                                                        <FormItem className="grow">
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="Website"
-                                                                    type="url"
-                                                                    {...field}
-                                                                    onChange={(e) => {
-                                                                        field.onChange(e);
-                                                                        trigger("applicationEmail");
-                                                                    }}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
                                         <FormField
                                             control={control}
                                             name="description"
@@ -291,12 +164,12 @@ export default function ApplicationModalClient({ applicationLink }: { applicatio
                                         />
                                         <FormField
                                             control={control}
-                                            name="salary"
+                                            name="phoneNumber"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Salary</FormLabel>
+                                                    <FormLabel>Telefónne číslo</FormLabel>
                                                     <FormControl>
-                                                        <Input {...field} type="number" />
+                                                        <Input {...field} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>

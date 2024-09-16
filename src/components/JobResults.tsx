@@ -28,11 +28,11 @@ export default async function JobResults({
   const searchFilter: Prisma.JobWhereInput = searchString
     ? {
       OR: [
-        { title: { search: searchString } },
-        { companyName: { search: searchString } },
-        { type: { search: searchString } },
-        { locationType: { search: searchString } },
-        { location: { search: searchString } },
+        { title: { contains: searchString } },
+        { companyName: { contains: searchString } },
+        { type: { contains: searchString } },
+        { locationType: { contains: searchString } },
+        { location: { contains: searchString } },
       ],
     }
     : {};
@@ -67,7 +67,7 @@ export default async function JobResults({
       ))}
       {jobs.length === 0 && (
         <p className="m-auto text-center">
-          No jobs found. Try adjusting your search filters.
+          Neboli nájdené žiadne pracovné ponuky. Skúste upraviť filtre vyhľadávania.
         </p>
       )}
       {jobs.length > 0 && (

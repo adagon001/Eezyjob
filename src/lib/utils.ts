@@ -3,6 +3,7 @@ import { UserResource } from "@clerk/types";
 import { clsx, type ClassValue } from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
+import { sk as locale } from 'date-fns/locale'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,7 +17,7 @@ export function formatMoney(amount: number) {
 }
 
 export function relativeDate(from: Date) {
-  return formatDistanceToNowStrict(from, { addSuffix: true });
+  return formatDistanceToNowStrict(from, { addSuffix: true, locale });
 }
 
 export function toSlug(str: string) {

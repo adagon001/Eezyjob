@@ -11,7 +11,15 @@ export default function Footer() {
               Nájdi si vysnívanú prácu v Nemecku na živnosť.
             </p>
           </div>
-          <div className="flex flex-wrap gap-5 text-sm text-muted-foreground">
+          <div className="col-sm-6 col-md-4 ">
+            <h3 className="text-xl font-semibold ">Kontakt</h3>
+            <p>Andrej Danko<br />+421 948 555 840<br /><a href="mailto:a.danaj@eezyjob.sk">a.danaj@eezyjob.sk</a></p>
+          </div>
+          <div className="col-sm-6 col-md-4">
+            <h3 className="text-xl font-semibold">Sídlo</h3>
+            <p>Eezyjob.sk s.r.o<br />Garbiarska 8<br />03101 Liptovský Mikuláš</p>
+          </div>
+          {/* <div className="flex flex-wrap gap-5 text-sm text-muted-foreground">
             <Link href="/about" className="hover:underline">
               About Us
             </Link>
@@ -24,7 +32,7 @@ export default function Footer() {
             <Link href="/privacy" className="hover:underline">
               Privacy Policy
             </Link>
-          </div>
+          </div> */}
         </div>
         <div className="text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Eezyjob, Inc. All rights reserved.

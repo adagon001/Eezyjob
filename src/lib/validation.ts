@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { jobTypes, locationTypes } from "./job-types";
 
-const requiredString = z.string().min(1, "Required");
+const requiredString = z.string().min(1, "Povinné");
 const numericRequiredString = requiredString.regex(/^\d+$/, "Must be a number");
 
 const companyLogoSchema = z
@@ -60,6 +60,19 @@ export const createJobSchema = z
   .and(locationSchema);
 
 export type CreateJobValues = z.infer<typeof createJobSchema>;
+
+export const createResponseSchema = z.object({
+  name: requiredString.max(100),
+  email: requiredString.max(100).email(),
+  photosList: companyLogoSchema,
+  description: z.string().max(5000).optional(),
+  phoneNumber: numericRequiredString.max(
+    13,
+    "Number can't be longer than 13 digits",
+  ).optional(),
+})
+
+export type CreateResponseValues = z.infer<typeof createResponseSchema>;
 
 export const jobFilterSchema = z.object({
   q: z.string().optional(),
