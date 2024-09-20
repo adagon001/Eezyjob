@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: "Eezyjob",
     template: "%s | Eezyjob",
   },
-  description: "Nájdi si vysnívanú prácu v Nemecku na živnosť.",
+  description: "Stabilná práca v zahraničí",
 };
 
 export default function RootLayout({

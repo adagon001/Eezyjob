@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="space-y-2">
             <h3 className="text-xl font-semibold">Eezyjobs.sk</h3>
             <p className="text-sm text-muted-foreground">
-              Nájdi si vysnívanú prácu v Nemecku na živnosť.
+              Stabilná práca v zahraničí
             </p>
           </div>
           <div className="col-sm-6 col-md-4 ">
