@@ -52,7 +52,7 @@ export default function JobPage({
           </div>
           <div className="text-muted-foreground">
             <p className="flex items-center gap-1.5">
-              <Briefcase size={16} className="shrink-0" />
+              <Briefcase size={16} className="shrink-0 text-primary" />
               {type}
             </p>
             <p className="flex items-center gap-1.5">
