@@ -4,7 +4,7 @@ import {
   SheetContent,
   SheetClose
 } from './ui/sheet';  // Importing from your component
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -30,8 +30,7 @@ export default function Navbar() {
       <nav className="m-auto flex max-w-5xl items-center justify-between px-3 py-5">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <Image src={logo} width={40} height={40} alt="Eezyjob logo" />
-          <span className="text-xl font-bold tracking-tight">Eezyjob.sk</span>
+          <Image src={logo} width={270} height={800} alt="Eezyjob logo" />
         </Link>
 
         {/* Desktop Menu */}
@@ -53,8 +52,7 @@ export default function Navbar() {
             <div className="flex justify-between items-center p-3">
               {/* Logo inside the sheet */}
               <Link href="/" className="flex items-center gap-3">
-                <Image src={logo} width={40} height={40} alt="Eezyjob logo" />
-                <span className="text-xl font-bold tracking-tight">Eezyjob.sk</span>
+                <Image src={logo} width={270} height={80} alt="Eezyjob logo" />
               </Link>
 
               {/* SheetClose button next to the logo */}
