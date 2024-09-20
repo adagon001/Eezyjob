@@ -27,7 +27,7 @@ import { createJobResponse } from "./actions";
 
 
 
-export default function ApplicationModalClient({ jobId }: { jobId: number }) {
+export default function ApplicationModalClient({ jobId, title }: { jobId: number, title: string }) {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = () => setModalOpen(true);
@@ -74,114 +74,109 @@ export default function ApplicationModalClient({ jobId }: { jobId: number }) {
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="relative bg-white rounded-lg shadow-lg max-w-2xl w-full p-6">
 
-                        <div className="max-h-[70vh] overflow-y-auto">
+                        <div className="max-h-[85vh] overflow-y-auto">
 
                             <div className="space-y-5 text-center">
-                                <H1>Find your perfect developer</H1>
+                                <H1>Záujem o pozíciu</H1>
                                 <p className="text-muted-foreground">
-                                    Get your job posting seen by thousands of job seekers.
+                                    {title}
                                 </p>
                             </div>
-                            <div className="space-y-6 rounded-lg border p-4">
-                                <div>
-                                    <h2 className="font-semibold">Job details</h2>
-                                    <p className="text-muted-foreground">
-                                        Provide a job description and details
-                                    </p>
-                                </div>
-                                <Form {...form}>
-                                    <form
-                                        className="space-y-4"
-                                        noValidate
-                                        onSubmit={handleSubmit(onSubmit)}
-                                    >
-                                        <FormField
-                                            control={control}
-                                            name="name"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Meno</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="Meno priezvisko" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={control}
-                                            name="email"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Email</FormLabel>
-                                                    <FormControl>
-                                                        <Input {...field} />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={control}
-                                            name="photosList"
-                                            render={({ field: { value, ...fieldValues } }) => (
-                                                <FormItem>
-                                                    <FormLabel>Fotky roboty</FormLabel>
-                                                    <FormControl>
-                                                        <Input multiple
-                                                            {...fieldValues}
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={(e) => {
-                                                                const file = e.target.files?.[0];
-                                                                fieldValues.onChange(file);
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={control}
-                                            name="description"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <Label onClick={() => setFocus("description")}>
-                                                        Description
-                                                    </Label>
-                                                    <FormControl>
-                                                        <RichTextEditor
-                                                            onChange={(draft) =>
-                                                                field.onChange(draftToMarkdown(draft))
-                                                            }
-                                                            ref={field.ref}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={control}
-                                            name="phoneNumber"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Telefónne číslo</FormLabel>
-                                                    <FormControl>
-                                                        <Input {...field} />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <LoadingButton type="submit" loading={isSubmitting}>
-                                            Submit
-                                        </LoadingButton>
-                                        <Button onClick={closeModal} className="ml-2">Cancel</Button>
-                                    </form>
-                                </Form>
-                            </div>
+
+
+                            <Form {...form}>
+                                <form
+                                    className="space-y-4"
+                                    noValidate
+                                    onSubmit={handleSubmit(onSubmit)}
+                                >
+                                    <FormField
+                                        control={control}
+                                        name="name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Meno</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Meno priezvisko" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Email</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={control}
+                                        name="photosList"
+                                        render={({ field: { value, ...fieldValues } }) => (
+                                            <FormItem>
+                                                <FormLabel>Fotky roboty</FormLabel>
+                                                <FormControl>
+                                                    <Input multiple
+                                                        {...fieldValues}
+                                                        type="file"
+                                                        accept="image/*"
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            fieldValues.onChange(file);
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={control}
+                                        name="description"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <Label onClick={() => setFocus("description")}>
+                                                    Description
+                                                </Label>
+                                                <FormControl>
+                                                    <RichTextEditor
+                                                        onChange={(draft) =>
+                                                            field.onChange(draftToMarkdown(draft))
+                                                        }
+                                                        ref={field.ref}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={control}
+                                        name="phoneNumber"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Telefónne číslo</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <LoadingButton type="submit" loading={isSubmitting}>
+                                        Odoslať
+                                    </LoadingButton>
+                                    <Button onClick={closeModal} className="ml-2">Zrušiť</Button>
+                                </form>
+                            </Form>
+
                         </div>
                     </div>
                 </div>

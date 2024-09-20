@@ -30,7 +30,7 @@ export default function Navbar() {
       <nav className="m-auto flex max-w-5xl items-center justify-between px-3 py-5">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <Image src={logo} width={270} height={800} alt="Eezyjob logo" />
+          <Image src={logo} width={270} height={100} alt="Eezyjob logo" />
         </Link>
 
         {/* Desktop Menu */}
@@ -52,7 +52,7 @@ export default function Navbar() {
             <div className="flex justify-between items-center p-3">
               {/* Logo inside the sheet */}
               <Link href="/" className="flex items-center gap-3">
-                <Image src={logo} width={270} height={80} alt="Eezyjob logo" />
+                <Image src={logo} width={250} height={100} alt="Eezyjob logo" />
               </Link>
 
               {/* SheetClose button next to the logo */}
